@@ -3,6 +3,7 @@
 # Importing the libraries
 import numpy as np
 from random import random, randint
+import random
 import matplotlib.pyplot as plt
 import time
 
@@ -142,31 +143,31 @@ class Game(Widget):
         
         if sand[int(self.car.x),int(self.car.y)] > 0:
             self.car.velocity = Vector(1, 0).rotate(self.car.angle)
-            last_reward = -5
+            last_reward = -5 # sand reward
         else: # otherwise
             self.car.velocity = Vector(6, 0).rotate(self.car.angle)
-            last_reward = -0.1
+            last_reward = -0.1 # driving away from objective reward
             if distance < last_distance:
-                last_reward = 0.1
+                last_reward = 0.1 # driving towards objective reward
 
         if self.car.x < 10:
             self.car.x = 10
-            last_reward = -1
+            last_reward = -1 # too close to edges of the wall reward
         if self.car.x > self.width - 10:
             self.car.x = self.width - 10
-            last_reward = -1
+            last_reward = -1 #
         if self.car.y < 10:
             self.car.y = 10
-            last_reward = -1
+            last_reward = -1 #
         if self.car.y > self.height - 10:
             self.car.y = self.height - 10
-            last_reward = -1
+            last_reward = -1 #
 
         if distance < 100:
             goal_x = self.width-goal_x
             goal_y = self.height-goal_y
-            last_reward = self.last_steps - self.steps
-            self.last_steps = self.steps
+            last_reward = self.last_steps - self.steps # reward for reaching the objective faster than last round (may want to scale this)
+            self.last_steps = self.steps 
             self.steps = 0
         last_distance = distance
 
